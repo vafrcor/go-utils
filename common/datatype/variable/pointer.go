@@ -2,36 +2,36 @@ package variable
 
 import "time"
 
-// PstringValue returns the value of the string pointer passed in or
+// PStringValue returns the value of the string pointer passed in or
 // "" if the pointer is nil.
-func PstringValue(v *string) string {
+func PStringValue(v *string) string {
 	if v != nil {
 		return *v
 	}
 	return ""
 }
 
-// Pint returns a pointer to the integer value passed in.
-func Pint(v int) *int {
+// PInt returns a pointer to the integer value passed in.
+func PInt(v int) *int {
 	return &v
 }
 
-// Pbool returns a pointer to the bool value passed in.
-func Pbool(v bool) *bool {
+// PBool returns a pointer to the bool value passed in.
+func PBool(v bool) *bool {
 	return &v
 }
 
 // PboolValue returns the value of the bool pointer passed in or
 // false if the pointer is nil.
-func PboolValue(v *bool) bool {
+func PBoolValue(v *bool) bool {
 	if v != nil {
 		return *v
 	}
 	return false
 }
 
-// Pstring returns a pointer to the string value passed in.
-func Pstring(v string) *string {
+// PString returns a pointer to the string value passed in.
+func PString(v string) *string {
 	return &v
 }
 
