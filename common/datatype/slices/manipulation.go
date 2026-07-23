@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -32,6 +33,26 @@ func SafeInt64ToUint64(input []int64) []uint64 {
 	}
 
 	return result
+}
+
+func StringToUint64Slice(input string) ([]uint64, error) {
+	parts := strings.Split(input, ",")
+	result := make([]uint64, 0, len(parts))
+
+	for _, p := range parts {
+		p = strings.TrimSpace(p) // remove spaces
+		if p == "" {
+			continue // skip empty values if any
+		}
+
+		num, err := strconv.ParseUint(p, 10, 64)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, num)
+	}
+
+	return result, nil
 }
 
 func StringWithSeperatorToStringSlice(input string, separator string) []string {

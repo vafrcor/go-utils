@@ -74,3 +74,8 @@ func TestTrimSpaceForSliceOfStrings(t *testing.T) {
 	trimmed := TrimSpaceForSliceOfStrings(source)
 	assert.Equal(t, []string{"foo", "bar"}, trimmed)
 }
+
+func TestStringToUint64Slice(t *testing.T) {
+	ids, _ := StringToUint64Slice("1,2,3")
+	assert.Equal(t, []uint64{1, 2, 3}, ids)
+}
