@@ -122,3 +122,15 @@ func TestConvertHHMMWithCustomTzIntoUtcTime(t *testing.T) {
 		})
 	}
 }
+
+func TestConvertInclusiveEndDateTzIntoUtcTime(t *testing.T) {
+	// End of month: 2026-07-31 inclusive -> start of 2026-08-01 in Jakarta (UTC+7).
+	convert, err := ConvertInclusiveEndDateTzIntoUtcTime("2026-07-31", "Asia/Jakarta", "2006-01-02")
+	assert.NoError(t, err)
+	assert.Equal(t, "2026-07-31 17:00:00 UTC", convert.Format("2006-01-02 15:04:05 MST"))
+
+	// Year rollover: 2026-12-31 inclusive -> start of 2027-01-01.
+	convert, err = ConvertInclusiveEndDateTzIntoUtcTime("2026-12-31", "Asia/Jakarta", "2006-01-02")
+	assert.NoError(t, err)
+	assert.Equal(t, "2026-12-31 17:00:00 UTC", convert.Format("2006-01-02 15:04:05 MST"))
+}

@@ -101,3 +101,18 @@ func GetDateOnlyStringFromCustomFormat(timeStr string, format string) (string, e
 	}
 	return t.Format(time.DateOnly), nil
 }
+
+func ConvertInclusiveEndDateTzIntoUtcTime(inputDateStr string, inputTz string, timeFormat string) (*time.Time, error) {
+	loc, err := time.LoadLocation(inputTz)
+	if err != nil {
+		return nil, err
+	}
+	inputDate, err := time.Parse(timeFormat, inputDateStr)
+	if err != nil {
+		return nil, err
+	}
+	// +1 day in the org zone before converting, so the entire end date is included.
+	nextDayLocal := time.Date(inputDate.Year(), inputDate.Month(), inputDate.Day()+1, 0, 0, 0, 0, loc)
+	dateInUtcTz := nextDayLocal.In(time.UTC)
+	return &dateInUtcTz, nil
+}
