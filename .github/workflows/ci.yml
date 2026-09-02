@@ -1,0 +1,47 @@
+name: CI Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "common/**"
+
+  push:
+    branches:
+      - main
+    paths:
+      - "common/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: common-test-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test Common
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./common
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: common/go.mod
+          cache: true
+          cache-dependency-path: common/go.sum
+
+      - name: Verify dependencies
+        run: go mod verify
+
+      - name: Run tests
+        run: make test
